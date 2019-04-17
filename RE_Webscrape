@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup as soup
 current_date = date.today()
 filename="results {}_{}_{}.csv".format(current_date.day, current_date.month, current_date.year)
 f=open(filename,"w")
-headers="suburb,address,bed,price,result,link\n"
+headers="suburb,address,bed,result,price,link\n"
 f.write(headers)
 all_letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o","p","q","r","s","t","u","v", "w", "x", "y", "z"]
 for letter in all_letters:
@@ -45,7 +45,10 @@ for letter in all_letters:
 			link = "-"
 		else:
 			link = link_container[0].get("href")
-
-		f.write(suburb+","+address.replace(",", "|")+","+bedroom+","+result+","+price.replace(",", " ") + "," + link + "\n")
+		price=price.replace("$",'')
+		price=price.replace(",", '')
+		if price == "undisclosed":
+			price = ''
+		f.write(suburb.replace(" ",'')+","+address.replace(",", "|")+","+bedroom+","+result+","+price+ "," + link + "\n")
 
 f.close()
